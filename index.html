@@ -54,23 +54,46 @@
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-web" role="tabpanel" aria-labelledby="nav-web-tab">Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.</div>
-                    <div class="tab-pane fade" id="nav-ftp" role="tabpanel" aria-labelledby="nav-ftp-tab">Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.</div>
-                    <div class="tab-pane fade" id="nav-ntp" role="tabpanel" aria-labelledby="nav-ntp-tab">Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.</div>
-                    <div class="tab-pane fade" id="nav-dns" role="tabpanel" aria-labelledby="nav-dns-tab">Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.</div>
+                    <div class="tab-pane fade show active" id="nav-web" role="tabpanel" aria-labelledby="nav-web-tab">Após logar no servidor, via SSH, executou-se o comando sudo apt-get update para garantir que os repositórios do sistema estejam atualizados. Após isso, o comando sudo apt-get install apache2 foi responsável por baixar o Apache2 para o servidor.
+                        Com o comando sudo systemctl status apache2 conseguimos verificar que o servidor Apache está ativo e rodando. Pelo browser, ao digitar “localhost”, o ip local do server ou o ip externo (192.168.103.113) podemos ver a página inicial padrão do Apache, mostrando que tudo está funcionando como esperado (Após a configuração do DNS também se torna possível o acesso através do nome necronomicode.boson.net).
+                        Com o servidor configurado e rodando, encontra-se a página index padrão do Apache na pasta /var/www/html/index.html, página esta que foi editada para conter o conteúdo deste relatório. A configuração do servidor web se mostrou bastante simples e descomplicada, dado que não foram necessárias configurações mais avançadas dentro do servidor.
+                        </div>
+                    <div class="tab-pane fade" id="nav-ftp" role="tabpanel" aria-labelledby="nav-ftp-tab">Já conectado ao servidor via SSH e com os repositórios atualizados, instalou-se o servidor vsftp com o comando sudo apt-get install vsftpd. Por padrão, os usuários cadastrados no servidor se tornaram usuários válidos para o FTP, sendo suas respectivas pastas FTP as pastas de usuário do Servidor.
+                        Para as configurações de usuário anônimo alterou-se o arquivo /etc/vsftpd.conf, na linha onde se lê “anonymous_enable=NO” alterou-se para “YES”, além da adição das seguintes linhas:
+                        anon_root=/var/ftp/ - Para configurar a página padrão de acesso pelo usuário anônimo
+                        no_anon_password=YES - Para não requerer senha quando há tentativa de login anônimo.
+                        Com essas configurações é possível logar no servidor FTP com usuário “anonymous” e senha em branco. O usuário anônimo será capaz de realizar apenas downloads. As etapas necessárias para configuração do usuário anônimo se mostraram desafiadoras, sendo necessário testar diversos métodos até encontrar a configuração ideal para obter o resultado esperado. </div>
+                    <div class="tab-pane fade" id="nav-ntp" role="tabpanel" aria-labelledby="nav-ntp-tab"></div>
+                    <div class="tab-pane fade" id="nav-dns" role="tabpanel" aria-labelledby="nav-dns-tab">A configuração do DNS começou pela instalação do BIND9 pelo comando “sudo apt-get install bind9”. Após o BIND9 estar instalado, foram configuradas as zonas, com a Direta tendo o domínio “boson.net” com o arquivo “/etc/bind/db.boson.net” e a Reversa sendo “168.192.in-addr.arpa” com o arquivo “/etc/bind.db.192”. Atualizando os arquivos das zonas, foi adicionado o Name Server Information com o endereço “necronomicode.boson.net”, o IP address of Name Server “necronomicode com o IP “192.168.103.113”, e o Mail Exchanger do boson.net sendo “mail.boson.net”. No final foi testado as zonas com os comandos “named-checkconf”, para a zona direta “named-checkzone boson.net /etc/bind db.boson.net” e para a zona reversa “named-checkzone 168.192.in-addr.arpa /etc/bind/db.192”. Após os testes, o BIND foi reiniciado para conferir se o sistema estava ativo com o comando “systemctl status bind9”. A configuração do DNS se mostrou complexa, sendo que foi feita duas vezes, a primeira seguindo um video encontrado no Youtube mas que não deu resultado, e a segunda vez com a ajuda de um link que o professor enviou, que somente assim foi possível obter sucesso.</div>
                     <div class="tab-pane fade" id="nav-autenticacao" role="tabpanel" aria-labelledby="nav-autenticacao-tab">A autenticação em um primeiro momento foi feita utilizando o sistema Samba 4, porém depois de algumas dificuldades de tentativas e erros, não resultando em um funcionamento adequado do sitema foi substituida por outro serviço. 
                                                                                                                             Depois de um tempo pesquisando sobre alguns serviços de autenticação surgiu como alternativa o Protocolo LDAP(Lightweight Directory Access Protocol) que não é em si um serviço de autenticação, mas juntamente com o padrão X.500(ramificação através de camadas) e com o TCP/IP, permitem que acessem um cliente, consumam dados 
-                                                                                                                            a partir de uma busca e aí sim é possível a autenticação de usuários(SLAPD = LDAP + X.500). Para fazer a autenticação o LDAP busca as informações do servidor SLAPD que compartilha as mesmas informações do Banco de Dados, depois dessa busca utiliza-se bibliotecas para fazer a autenticação(LIBPAM-LDAP e a LIBNSS-LDAP).</div>
+                                                                                                                            a partir de uma busca e aí sim é possível a autenticação de usuários(SLAPD = LDAP + X.500). Para fazer a autenticação o LDAP busca as informações do servidor SLAPD que compartilha as mesmas informações do Banco de Dados, depois dessa busca utiliza-se bibliotecas para fazer a autenticação(LIBPAM-LDAP e a LIBNSS-LDAP). As dificuldades enfrentadas para configurar a autenticação ficou centralizada para escolher o serviço mais adequado e que tivesse um tutorial bem específico do passo a passo para a instalação correta.</div>
                 </div>
             </div>
             <div class="row subtitulo">
                 <h3>Links Pesquisados</h3>
             </div>
             <div class="row link">
+                <h5>Web:</h5>
+                <el-row><a target="_blanck" href=""></a></el-row>
+            </div>
+            <div class="row link">
+                <h5>FTP:</h5>
+                <el-row><a target="_blanck" href=""></a></el-row>
+            </div>
+            <div class="row link">
+                <h5>NTP:</h5>
+                <el-row><a target="_blanck" href="https://vitux.com/how-to-install-ntp-server-and-client-on-ubuntu/">https://vitux.com/how-to-install-ntp-server-and-client-on-ubuntu/</a></el-row>
+            </div>
+            <div class="row link">
+                <h5>DNS:</h5>
+                <el-row><a target="_blanck" href="https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-configure-dns-server-on-ubuntu-18-04.html">https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-configure-dns-server-on-ubuntu-18-04.html</a></el-row>
+            </div>
+            <div class="row link">
                 <h5>Autenticação:</h5>
-                <a target="_blanck" href="https://jualabs.wordpress.com/2015/07/03/instalacao-e-autenticacao-do-ldap-no-ubuntu-12-04/">https://jualabs.wordpress.com/2015/07/03/instalacao-e-autenticacao-do-ldap-no-ubuntu-12-04/</a>
-                <a target="_blanck" href="https://www.youtube.com/watch?v=uaxGJs48nSY&t=385s">https://www.youtube.com/watch?v=uaxGJs48nSY&t=385s</a>
-                <a target="_blanck" href="https://stackoverflow.com/questions/50698477/cant-create-new-entry-phpldapadmin">https://stackoverflow.com/questions/50698477/cant-create-new-entry-phpldapadmin</a>
+                <el-row><a target="_blanck" href="https://jualabs.wordpress.com/2015/07/03/instalacao-e-autenticacao-do-ldap-no-ubuntu-12-04/">https://jualabs.wordpress.com/2015/07/03/instalacao-e-autenticacao-do-ldap-no-ubuntu-12-04/</a></el-row>
+                <el-row><a target="_blanck" href="https://www.youtube.com/watch?v=uaxGJs48nSY&t=385s">https://www.youtube.com/watch?v=uaxGJs48nSY&t=385s</a></el-row>
+                <el-row><a target="_blanck" href="https://stackoverflow.com/questions/50698477/cant-create-new-entry-phpldapadmin">https://stackoverflow.com/questions/50698477/cant-create-new-entry-phpldapadmin</a></el-row>
             </div>
     </section>
 
