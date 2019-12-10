@@ -1,0 +1,45 @@
+.body {
+    background-color:  #f0f0f0;
+}
+
+.titulo {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.subtitulo {
+    margin-top: 50px;
+    color: red;
+}
+
+.integrantes {
+    margin-top: 40px;
+}
+
+.centralizar {
+    text-align: center;
+}
+
+.logos-integrantes {
+    height: 120px;
+    border-radius: 200px;
+    width: 120px;
+}
+
+.link-integrantes {
+    color: black;
+    text-decoration: none;
+    margin: 30px;
+}
+
+.link-integrantes:hover {
+    color: blue;
+    text-decoration-color: blue;
+}
+
+.link {
+    margin-top: 20px;
+    flex-direction: column;
+    margin-bottom: 40px;
+}
